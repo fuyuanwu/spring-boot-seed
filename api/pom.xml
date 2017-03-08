@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>test4</groupId>
+        <artifactId>test4</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.weihui</groupId>
+    <artifactId>api</artifactId>
+    <version>${myself.version}</version>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <!-- self -->
+        <dependency>
+            <groupId>test4</groupId>
+            <artifactId>domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <!--mybatis pagehelper-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--mybatis-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- hystrix -->
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-metrics-event-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-javanica</artifactId>
+        </dependency>
+
+        <!--weihui common-->
+        <dependency>
+            <groupId>com.weihui.common.basic</groupId>
+            <artifactId>basic-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.common.basic</groupId>
+            <artifactId>basic-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.ufs</groupId>
+            <artifactId>ufs-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.ucs</groupId>
+            <artifactId>ucs-support-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.ucs</groupId>
+            <artifactId>ucs-memcached</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.mq</groupId>
+            <artifactId>weihui-mq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.mq</groupId>
+            <artifactId>weihui-mq-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.weihui.basis.mq</groupId>
+            <artifactId>weihui-mq-jms-listener</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
