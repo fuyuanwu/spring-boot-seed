@@ -22,9 +22,6 @@ public class AccountEndPoint {
     @Autowired
     TestService testService;
 
-    @Value("${logging.config}")
-    String logPath;
-
     @RequestMapping(value = "/api/accounts/login")
     public Object login(@RequestParam("email") String email, @RequestParam("password") String password) {
 

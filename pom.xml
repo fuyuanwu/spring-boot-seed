@@ -27,6 +27,7 @@
         <!-- myself -->
         <config.root>${config.prefix}/finance/test</config.root>
         <myself.version>1.0-SNAPSHOT</myself.version>
+        <myself.domain.version>1.0-SNAPSHOT</myself.domain.version>
 
         <!-- org -->
         <spring-boot.version>1.5.1.RELEASE</spring-boot.version>
@@ -49,11 +50,32 @@
         <weihui.ucs.version>1.0.3</weihui.ucs.version>
         <fastjson.version>1.2.24</fastjson.version>
         <pagehelper.version>5.0.0</pagehelper.version>
+        <aviator.version>2.3.7</aviator.version>
+        <oracle.version>10.2.0.3.0</oracle.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>test4</groupId>
+                <artifactId>domain</artifactId>
+                <version>${myself.domain.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.aviator</groupId>
+                <artifactId>aviator</artifactId>
+                <version>${aviator.version}</version>
+            </dependency>
+
             <!--MyBatis 分页插件-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -166,10 +188,21 @@
                 <artifactId>weihui-mq-jms-listener</artifactId>
                 <version>${weihui.mq.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
         <resources>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>

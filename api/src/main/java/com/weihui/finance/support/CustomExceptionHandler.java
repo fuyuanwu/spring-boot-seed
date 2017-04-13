@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -21,56 +22,57 @@ import java.util.Map;
 /**
  * 公共异常处理切面
  */
-@ControllerAdvice(annotations = {RestController.class})
+@ControllerAdvice(annotations = { RestController.class })
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    @ExceptionHandler(value = {ServiceException.class})
-    public final ResponseEntity<ErrorResult> handleServiceException(ServiceException ex, HttpServletRequest request) {
+    @ExceptionHandler(value = { ServiceException.class })
+    public final ResponseEntity<Object> handleServiceException(ServiceException ex, HttpServletRequest request,
+                                                               WebRequest webRequest) {
         // 注入servletRequest，用于出错时打印请求URL与来源地址
         logError(ex, request);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        ErrorResult result = new ErrorResult(ex.errorCode.code, ex.getMessage());
-        return new ResponseEntity<ErrorResult>(result, headers, HttpStatus.valueOf(ex.errorCode.httpStatus));
+        return handleExceptionInternal(ex, null, headers, HttpStatus.valueOf(ex.errorCode.httpStatus), webRequest);
     }
 
-    @ExceptionHandler(value = {Exception.class})
-    public final ResponseEntity<ErrorResult> handleGeneralException(Exception ex, HttpServletRequest request) {
-        logError(ex, request);
-
+    @ExceptionHandler(value = { Exception.class })
+    public final ResponseEntity<Object> handleGeneralException(Exception ex, WebRequest request) {
+        logError(ex);
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        ErrorResult result = new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-        return new ResponseEntity<ErrorResult>(result, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        return handleExceptionInternal(ex, null, headers, status, request);
     }
 
     /**
-     * 重载ResponseEntityExceptionHandler的方法，加入日志
+     * 重载ResponseEntityExceptionHandler的 handleExceptionInternal 方法，加入日志
      */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
         logError(ex);
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        ErrorResult result = new ErrorResult(status.value(), ex.getMessage());
 
-        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
-            request.setAttribute("javax.servlet.error.exception", ex, WebRequest.SCOPE_REQUEST);
+        if (body instanceof ErrorResult) {
+            result = (ErrorResult) body;
         }
 
-        return new ResponseEntity<Object>(body, headers, status);
+        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+            request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);
+        }
+
+        return new ResponseEntity<Object>(result, headers, status);
     }
 
-    public void logError(Exception ex) {
+    private void logError(Exception ex) {
         Map<String, String> map = Maps.newHashMap();
         map.put("message", ex.getMessage());
         logger.error(JSON.toJSONString(map), ex);
     }
 
-    public void logError(Exception ex, HttpServletRequest request) {
+    private void logError(Exception ex, HttpServletRequest request) {
         Map<String, String> map = Maps.newHashMap();
         map.put("message", ex.getMessage());
         map.put("from", request.getRemoteAddr());

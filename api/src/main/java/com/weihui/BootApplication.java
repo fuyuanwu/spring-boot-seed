@@ -17,13 +17,17 @@ package com.weihui;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
+@EnableAutoConfiguration
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @PropertySource(value = {"${app.config}"})
 public class BootApplication extends SpringBootServletInitializer implements CommandLineRunner {
@@ -38,9 +42,5 @@ public class BootApplication extends SpringBootServletInitializer implements Com
         // System.out.println("===================>");
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(this.getClass());
-    }
 }
 
